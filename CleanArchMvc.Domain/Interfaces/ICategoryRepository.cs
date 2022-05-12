@@ -13,6 +13,6 @@ namespace CleanArchMvc.Domain.Interfaces
         Task<Category> GetByIdAssync(int? id);
         Task<Category> CreateAssync(Category category);
         Task<Category> UpdateAssync(Category category);
-        Task<Category> RemoveAssync(int id);
+        Task<Category> RemoveAssync(Category category);
     }
 }

@@ -13,6 +13,7 @@ namespace CleanArchMvc.Domain.Entities
         {
             //Name = name;
             ValidateDomain(name);
+            Name = name;
         }
 
         public Category(int id, string name)
@@ -21,6 +22,7 @@ namespace CleanArchMvc.Domain.Entities
             Id = id;
 
             ValidateDomain(name);
+            Name = name;
         }
 
         public string Name { get; private set; }
@@ -35,6 +37,7 @@ namespace CleanArchMvc.Domain.Entities
         public void Update(string name)
         {
             ValidateDomain(name);
+            Name = name;
         }
     }
 }
