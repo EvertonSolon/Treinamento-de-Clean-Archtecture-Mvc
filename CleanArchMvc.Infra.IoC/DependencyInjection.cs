@@ -17,7 +17,7 @@ namespace CleanArchMvc.Infra.IoC
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, 
             IConfiguration configuration)
         {
-            //Registro do context: ApplicationDbContext
+            //Registro do contexto: ApplicationDbContext
             //Definição do provedor do banco de dados: UseSqlServer
             //Definição do nome da cadeia de caracteres da conexão: DefaultConnection
             //Definição da pasta onde os arquivos das migração irão ficar: mesma pasta do projeto
