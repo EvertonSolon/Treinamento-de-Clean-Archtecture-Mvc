@@ -21,6 +21,9 @@ namespace CleanArchMvc.Infra.Data.EntitiesConfiguration
             builder.HasOne(x => x.Category)
                 .WithMany(y => y.Products)
                 .HasForeignKey(x => x.CategoryId);
+            //.OnDelete(DeleteBehavior.Restrict);//Para evitar que os registros da propriedade
+            //filha sejam removidas automaticamente em cascata caso uma propriedade pai
+            //seja excluída.
 
         }
     }
