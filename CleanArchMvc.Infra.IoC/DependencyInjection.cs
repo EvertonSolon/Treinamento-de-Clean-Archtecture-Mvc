@@ -1,4 +1,7 @@
-﻿using CleanArchMvc.Domain.Interfaces;
+﻿using CleanArchMvc.Application.Interfaces;
+using CleanArchMvc.Application.Mappings;
+using CleanArchMvc.Application.Services;
+using CleanArchMvc.Domain.Interfaces;
 using CleanArchMvc.Infra.Data.Context;
 using CleanArchMvc.Infra.Data.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -29,7 +32,12 @@ namespace CleanArchMvc.Infra.IoC
             //Registro os serviços dos repositórios
             //A recomendação para aplicações web é AddScoped
             services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<ICategoryService, CategoryService>();
+
             services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IProductService, ProductService>();
+
+            //services.AddAutoMapper(typeof(DomainToDtoMappingProfile));
 
             return services;
         }
