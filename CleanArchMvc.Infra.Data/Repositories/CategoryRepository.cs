@@ -19,14 +19,14 @@ namespace CleanArchMvc.Infra.Data.Repositories
             _context = context;
         }
 
-        public async Task<Category> CreateAssync(Category category)
+        public async Task<Category> CreateAsync(Category category)
         {
             _context.Add(category);
             await _context.SaveChangesAsync();
             return category;
         }
 
-        public async Task<Category> GetByIdAssync(int? id)
+        public async Task<Category> GetByIdAsync(int? id)
         {
             //Apenas pra ver a diferença entre uma chamada e outra.
             var teste = _context.FindAsync<Category>(id);
@@ -40,14 +40,14 @@ namespace CleanArchMvc.Infra.Data.Repositories
             return await result;
         }
 
-        public async Task<Category> RemoveAssync(Category category)
+        public async Task<Category> RemoveAsync(Category category)
         {
             _context.Remove(category);
             await _context.SaveChangesAsync();
             return category;
         }
 
-        public async Task<Category> UpdateAssync(Category category)
+        public async Task<Category> UpdateAsync(Category category)
         {
             _context.Update(category);
             await _context.SaveChangesAsync();

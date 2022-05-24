@@ -19,14 +19,14 @@ namespace CleanArchMvc.Infra.Data.Repositories
             _context = context;
         }
 
-        public async Task<Product> CreateAssync(Product product)
+        public async Task<Product> CreateAsync(Product product)
         {
             _context.Add(product);
             await _context.SaveChangesAsync();
             return product;
         }
 
-        public async Task<Product> GetByIdAssync(int? id)
+        public async Task<Product> GetByIdAsync(int? id)
         {
             //Apenas pra ver a diferença entre uma chamada e outra.
             var teste = _context.FindAsync<Product>(id);
@@ -48,14 +48,14 @@ namespace CleanArchMvc.Infra.Data.Repositories
             return await result;
         }
 
-        public async Task<Product> RemoveAssync(Product product)
+        public async Task<Product> RemoveAsync(Product product)
         {
             _context.Remove(product);
             await _context.SaveChangesAsync();
             return product;
         }
 
-        public async Task<Product> UpdateAssync(Product product)
+        public async Task<Product> UpdateAsync(Product product)
         {
             _context.Update(product);
             await _context.SaveChangesAsync();
