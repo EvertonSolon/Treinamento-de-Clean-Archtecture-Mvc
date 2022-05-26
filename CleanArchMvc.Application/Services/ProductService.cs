@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CleanArchMvc.Application.DTOs;
 using CleanArchMvc.Application.Interfaces;
+using CleanArchMvc.Application.Products.Commands;
 using CleanArchMvc.Application.Products.Queries;
 using CleanArchMvc.Domain.Entities;
 using CleanArchMvc.Domain.Interfaces;
@@ -24,18 +25,29 @@ namespace CleanArchMvc.Application.Services
             _mediator = mediator;
         }
 
-        //public async Task CreateAsync(ProductDto productDto)
-        //{
-        //    var productEntity = _mapper.Map<Product>(productDto);
-        //    await _productRepository.CreateAsync(productEntity);
-        //}
+        public async Task CreateAsync(ProductDto productDto)
+        {
+            var productCreateCommand = _mapper.Map<ProductCreateCommand>(productDto);
 
-        //public async Task<ProductDto> GetByIdAsync(int? id)
-        //{
-        //    var productEntity = await _productRepository.GetByIdAsync(id);
-        //    var productDto = _mapper.Map<ProductDto>(productEntity);
-        //    return productDto;
-        //}
+            if(productCreateCommand == null)
+                throw new Exception("Entity could not be loaded.");
+
+            await _mediator.Send(productCreateCommand);
+
+        }
+
+        public async Task<ProductDto> GetByIdAsync(int? id)
+        {
+            var productByIdQuery = new GetProductByIdQuery(id.Value);
+
+            if (productByIdQuery == null)
+                throw new Exception("Entity could not be loaded.");
+
+            var productEntity = await _mediator.Send(productByIdQuery);
+            var productDto = _mapper.Map<ProductDto>(productEntity);
+            return productDto;
+
+        }
 
         public async Task<IEnumerable<ProductDto>> GetProducts()
         {
@@ -56,23 +68,43 @@ namespace CleanArchMvc.Application.Services
 
         }
 
-        //public async Task<ProductDto> GetProductWithCategoryByProductIdAsync(int? id)
-        //{
-        //    var productWithCategoryEntity = await _productRepository.GetProductWithCategoryByProductIdAsync(id);
-        //    var productsDtos = _mapper.Map<ProductDto>(productWithCategoryEntity);
-        //    return productsDtos;
-        //}
+        public async Task<ProductDto> GetProductWithCategoryByProductIdAsync(int? id)
+        {
+            //var productWithCategoryEntity = await _productRepository.GetProductWithCategoryByProductIdAsync(id);
+            //var productsDtos = _mapper.Map<ProductDto>(productWithCategoryEntity);
+            //return productsDtos;
 
-        //public async Task RemoveAsync(int? id)
-        //{
-        //    var productEntity = await _productRepository.GetByIdAsync(id);
-        //    await _productRepository.CreateAsync(productEntity);
-        //}
+            //Este código está igual ao do método GetProductByIdAsync.
+            //O professor irá abordar a refatoração mais pra frente.
+            var productByIdQuery = new GetProductByIdQuery(id.Value);
 
-        //public async Task UpdateAsync(ProductDto productDto)
-        //{
-        //    var productEntity = _mapper.Map<Product>(productDto);
-        //    await _productRepository.CreateAsync(productEntity);
-        //}
+            if (productByIdQuery == null)
+                throw new Exception("Entity could not be loaded.");
+
+            var productEntity = await _mediator.Send(productByIdQuery);
+            var productDto = _mapper.Map<ProductDto>(productEntity);
+            return productDto;
+
+        }
+
+        public async Task RemoveAsync(int? id)
+        {
+            var productRemoveCommand = new ProductRemoveCommand(id.Value);
+
+            if (productRemoveCommand == null)
+                throw new Exception("Entity could not be loaded.");
+
+            await _mediator.Send(productRemoveCommand);
+        }
+
+        public async Task UpdateAsync(ProductDto productDto)
+        {
+            var productUpdateCommand = _mapper.Map<ProductCreateCommand>(productDto);
+
+            if (productUpdateCommand == null)
+                throw new Exception("Entity could not be loaded.");
+
+            await _mediator.Send(productUpdateCommand);
+        }
     }
 }
