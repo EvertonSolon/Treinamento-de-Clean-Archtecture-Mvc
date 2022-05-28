@@ -76,6 +76,8 @@ namespace CleanArchMvc.Application.Services
 
             //Este código está igual ao do método GetProductByIdAsync.
             //O professor irá abordar a refatoração mais pra frente.
+
+            //Esta implemantação está violando o padrão DRY (Do not repeat yourself) por estar igual ao método GetByIdAsync.
             var productByIdQuery = new GetProductByIdQuery(id.Value);
 
             if (productByIdQuery == null)
