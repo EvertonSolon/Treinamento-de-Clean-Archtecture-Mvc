@@ -28,15 +28,7 @@ namespace CleanArchMvc.Infra.Data.Repositories
 
         public async Task<Product> GetByIdAsync(int? id)
         {
-            //Apenas pra ver a diferença entre uma chamada e outra.
             var teste = _context.FindAsync<Product>(id);
-            var result = await _context.Products.FindAsync(id);
-            return result;
-        }
-
-        public async Task<Product> GetProductWithCategoryByProductIdAsync(int? id)
-        {
-            //Carregamento adiantado (Eager loading)
             var result = await _context.Products.Include(x => x.Category).
                 SingleOrDefaultAsync(y => y.Id == id);
             return result;

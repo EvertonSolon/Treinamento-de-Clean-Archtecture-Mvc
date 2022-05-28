@@ -10,7 +10,6 @@ namespace CleanArchMvc.Domain.Interfaces
     public interface IProductRepository
     {
         Task<IEnumerable<Product>> GetProducts();
-        Task<Product> GetProductWithCategoryByProductIdAsync(int? id);
         Task<Product> GetByIdAsync(int? id);
         Task<Product> CreateAsync(Product product);
         Task<Product> UpdateAsync(Product product);

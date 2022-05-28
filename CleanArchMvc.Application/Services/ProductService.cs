@@ -68,27 +68,6 @@ namespace CleanArchMvc.Application.Services
 
         }
 
-        public async Task<ProductDto> GetProductWithCategoryByProductIdAsync(int? id)
-        {
-            //var productWithCategoryEntity = await _productRepository.GetProductWithCategoryByProductIdAsync(id);
-            //var productsDtos = _mapper.Map<ProductDto>(productWithCategoryEntity);
-            //return productsDtos;
-
-            //Este código está igual ao do método GetProductByIdAsync.
-            //O professor irá abordar a refatoração mais pra frente.
-
-            //Esta implemantação está violando o padrão DRY (Do not repeat yourself) por estar igual ao método GetByIdAsync.
-            var productByIdQuery = new GetProductByIdQuery(id.Value);
-
-            if (productByIdQuery == null)
-                throw new Exception("Entity could not be loaded.");
-
-            var productEntity = await _mediator.Send(productByIdQuery);
-            var productDto = _mapper.Map<ProductDto>(productEntity);
-            return productDto;
-
-        }
-
         public async Task RemoveAsync(int? id)
         {
             var productRemoveCommand = new ProductRemoveCommand(id.Value);
