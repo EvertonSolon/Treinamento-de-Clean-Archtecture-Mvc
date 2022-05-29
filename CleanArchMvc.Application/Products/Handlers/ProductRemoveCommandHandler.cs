@@ -22,7 +22,7 @@ namespace CleanArchMvc.Application.Products.Handlers
         public async Task<Product> Handle(ProductRemoveCommand request,
             CancellationToken cancellationToken)
         {
-            var product = await _productRepository.GetProductWithCategoryByProductIdAsync(request.Id);
+            var product = await _productRepository.GetByIdAsync(request.Id);
 
             if (product == null)
             {
