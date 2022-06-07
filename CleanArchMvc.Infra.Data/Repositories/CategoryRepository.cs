@@ -28,8 +28,6 @@ namespace CleanArchMvc.Infra.Data.Repositories
 
         public async Task<Category> GetByIdAsync(int? id)
         {
-            //Apenas pra ver a diferença entre uma chamada e outra.
-            var teste = _context.FindAsync<Category>(id);
             var result = _context.Categories.FindAsync(id);
             return await result;
         }
