@@ -1,4 +1,6 @@
 using CleanArchMvc.Infra.IoC;
+using Microsoft.AspNetCore.Localization;
+using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +12,15 @@ builder.Services.AddControllersWithViews();
 var serviceProvider = builder.Services.BuildServiceProvider();
 
 var app = builder.Build();
+
+// Definindo a cultura padrão: pt-BR
+var supportedCultures = new[] { new CultureInfo("pt-BR") };
+app.UseRequestLocalization(new RequestLocalizationOptions
+{
+    DefaultRequestCulture = new RequestCulture(culture: "pt-BR", uiCulture: "pt-BR"),
+    SupportedCultures = supportedCultures,
+    SupportedUICultures = supportedCultures
+});
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
