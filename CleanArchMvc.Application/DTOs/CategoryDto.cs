@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,7 @@ namespace CleanArchMvc.Application.DTOs
 {
     public class CategoryDto
     {
+        [DisplayName("Categories")]
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Name is required!")]
