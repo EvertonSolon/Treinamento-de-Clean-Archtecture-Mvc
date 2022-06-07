@@ -18,7 +18,7 @@ namespace CleanArchMvc.Domain.Entities
 
         public Category(int id, string name)
         {
-            DomainExceptionValidation.When(id <= 0, "Id must be greater than 0!");
+            DomainExceptionValidation.When(id < 0, "Id must be greater than 0!");
             Id = id;
 
             ValidateDomain(name);
