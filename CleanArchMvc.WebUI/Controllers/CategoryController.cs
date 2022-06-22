@@ -8,9 +8,9 @@ namespace CleanArchMvc.WebUI.Controllers
     {
         private readonly ICategoryService _categoryService;
 
-        public CategoryController(ICategoryService productService)
+        public CategoryController(ICategoryService categoryService)
         {
-            _categoryService = productService;
+            _categoryService = categoryService;
 
         }
 
@@ -54,15 +54,7 @@ namespace CleanArchMvc.WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                try
-                {
-                    await _categoryService.Update(categoryDto);
-                }
-                catch (Exception)
-                {
-
-                    throw;
-                }
+                await _categoryService.Update(categoryDto);
 
                 return RedirectToAction(nameof(Index));
             }
@@ -89,16 +81,16 @@ namespace CleanArchMvc.WebUI.Controllers
             await _categoryService.Remove(id.Value);
             return RedirectToAction(nameof(Index));
         }
-        
+
         [HttpGet]
-        public async Task<IActionResult> Details (int? id)
+        public async Task<IActionResult> Details(int? id)
         {
-            if(id == null)
+            if (id == null)
                 return NotFound();
 
             var categoryDto = await _categoryService.GetById(id.Value);
 
-            if(categoryDto == null) return NotFound();
+            if (categoryDto == null) return NotFound();
 
             return View(categoryDto);
         }

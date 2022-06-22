@@ -80,7 +80,7 @@ namespace CleanArchMvc.Application.Services
 
         public async Task UpdateAsync(ProductDto productDto)
         {
-            var productUpdateCommand = _mapper.Map<ProductCreateCommand>(productDto);
+            var productUpdateCommand = _mapper.Map<ProductUpdateCommand>(productDto);
 
             if (productUpdateCommand == null)
                 throw new Exception("Entity could not be loaded.");
