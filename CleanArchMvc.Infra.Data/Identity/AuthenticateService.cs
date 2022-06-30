@@ -16,6 +16,7 @@ namespace CleanArchMvc.Infra.Data.Identity
             UserManager<ApplicationUser> userManager)
         {
             _signInManager = signInManager;
+            _userManager = userManager;
         }
 
 

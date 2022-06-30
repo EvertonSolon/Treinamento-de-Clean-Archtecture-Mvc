@@ -1,3 +1,4 @@
+using CleanArchMvc.Domain.Accounts;
 using CleanArchMvc.Infra.IoC;
 using Microsoft.AspNetCore.Localization;
 using System.Globalization;
@@ -35,6 +36,20 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+// Para referenciar a interface "ISeedUserRoleInitial", o código abaixo que irá obter  
+// o serviço da interface por uma duração limitada.
+using (var serviceScope = app.Services.CreateScope())
+{
+    var services = serviceScope.ServiceProvider;
+
+    var seedUserRoleInitial = services.GetRequiredService<ISeedUserRoleInitial>();
+
+    seedUserRoleInitial.SeedRoles();
+    seedUserRoleInitial.SeedUsers();
+
+}
+
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
