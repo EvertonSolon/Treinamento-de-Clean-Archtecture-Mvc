@@ -11,25 +11,25 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
 
 namespace CleanArchMvc.Infra.IoC
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddInfrastructure(this IServiceCollection services, 
-            IConfiguration configuration)
+        public static IServiceCollection AddInfrastructure(this IServiceCollection services,
+            IConfiguration configuration,
+            [CallerFilePath] string sourceFilePath = "")
         {
+
+            var caller = sourceFilePath.Substring(sourceFilePath.IndexOf("Web") + "Web.".Length, 3);
+
             //Registro do contexto: ApplicationDbContext
             //Definição do provedor do banco de dados: UseSqlServer
             //Definição do nome da cadeia de caracteres da conexão: DefaultConnection
             //Definição da pasta onde os arquivos das migração irão ficar: mesma pasta do projeto
             //Infra.Data onde o contexto ApplicationDbContext está .
-            services.AddDbContext<ApplicationDbContext>(options => 
+            services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
              b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
 
@@ -46,8 +46,9 @@ namespace CleanArchMvc.Infra.IoC
                 //de token de autenticação de dois fatores.
                 .AddDefaultTokenProviders();
 
-            //Configuração dos cookies da aplicação 
-            services.ConfigureApplicationCookie(options =>
+            if (caller != "API")
+                //Configuração dos cookies da aplicação 
+                services.ConfigureApplicationCookie(options =>
                 options.AccessDeniedPath = "/Account/Login"); //Controller Account, Action Login
 
 
@@ -60,7 +61,9 @@ namespace CleanArchMvc.Infra.IoC
             services.AddScoped<IProductService, ProductService>();
 
             services.AddScoped<IAuthenticate, AuthenticateService>();
-            services.AddScoped<ISeedUserRoleInitial, SeedUserRoleInitial>();
+
+            if (caller != "API")
+                services.AddScoped<ISeedUserRoleInitial, SeedUserRoleInitial>();
 
             services.AddAutoMapper(typeof(DomainToDtoMappingProfile));
 
