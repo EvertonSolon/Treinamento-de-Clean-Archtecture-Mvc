@@ -76,7 +76,7 @@ namespace CleanArchMvc.API.Controllers
 
             await _productService.UpdateAsync(productDto);
 
-            return Ok(productApiDto);
+            return Ok(productDto);
         }
 
         [HttpDelete("{id:int}")]
