@@ -1,8 +1,10 @@
+using CleanArchMvc.API.Mappings;
 using CleanArchMvc.Infra.IoC;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddAutoMapper(typeof(DomainToDtoMappingApiProfile));
 
 // Add services to the container.
 
