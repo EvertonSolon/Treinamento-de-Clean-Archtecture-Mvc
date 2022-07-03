@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CleanArchMvc.Application.DTOs
 {
-    public class ProductBaseDto
+    public class ProductApiDto
     {
         public int Id { get; set; }
 

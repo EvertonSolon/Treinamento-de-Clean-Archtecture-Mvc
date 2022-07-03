@@ -19,7 +19,7 @@ namespace CleanArchMvc.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ProductBaseDto>>> Get()
+        public async Task<ActionResult<IEnumerable<ProductApiDto>>> Get()
         {
             var products = await _productService.GetProducts();
 
@@ -28,42 +28,51 @@ namespace CleanArchMvc.API.Controllers
                 return NotFound("Products not found");
             }
 
-            var productsApiDto = _mapper.Map<IEnumerable<ProductBaseDto>>(products);
-
-            return Ok(productsApiDto);
+            return Ok(products);
         }
 
         [HttpGet("{id:int}", Name = "GetProduct")]
-        public async Task<ActionResult<ProductBaseDto>> Get(int id)
+        public async Task<ActionResult<ProductApiDto>> Get(int id)
         {
             var productDto = await _productService.GetByIdAsync(id);
 
             if (productDto == null) return NotFound("Product not found");
 
-            var productApiDto = _mapper.Map<ProductBaseDto>(productDto);
-
-            return Ok(productApiDto);
+            return Ok(productDto);
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] ProductBaseDto productApiDto)
+        public async Task<ActionResult> Post([FromBody] ProductApiDto productApiDto)
         {
             if (productApiDto == null) return BadRequest("Invalid Data");
 
-            var productDto = _mapper.Map<ProductDto>(productApiDto);
+            ProductDto productDto = MapProductApiToProductDto(productApiDto);
 
             await _productService.CreateAsync(productDto);
 
             return new CreatedAtRouteResult("GetProduct", new { id = productApiDto.Id }, productApiDto);
         }
 
-        [HttpPut]
-        public async Task<ActionResult> Put(int id, [FromBody] ProductBaseDto productApiDto)
+        private static ProductDto MapProductApiToProductDto(ProductApiDto productApiDto)
         {
+            return new ProductDto
+            {
+                Id = productApiDto.Id,
+                Name = productApiDto.Name,
+                Description = productApiDto.Description,
+                Price = productApiDto.Price,
+                Stock = productApiDto.Stock,
+                Image = productApiDto.Image,
+                CategoryId = productApiDto.CategoryId
+            };
+        }
 
+        [HttpPut]
+        public async Task<ActionResult> Put(int id, [FromBody] ProductApiDto productApiDto)
+        {
             if (id != productApiDto.Id || productApiDto == null) return BadRequest();
 
-            var productDto = _mapper.Map<ProductDto>(productApiDto);
+            ProductDto productDto = MapProductApiToProductDto(productApiDto);
 
             await _productService.UpdateAsync(productDto);
 
@@ -71,7 +80,7 @@ namespace CleanArchMvc.API.Controllers
         }
 
         [HttpDelete("{id:int}")]
-        public async Task<ActionResult<ProductBaseDto>> Delete(int id)
+        public async Task<ActionResult<ProductApiDto>> Delete(int id)
         {
             var product = await _productService.GetByIdAsync(id);
 
