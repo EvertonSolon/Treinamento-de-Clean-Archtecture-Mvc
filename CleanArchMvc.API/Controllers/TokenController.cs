@@ -1,5 +1,6 @@
 ﻿using CleanArchMvc.API.Models;
 using CleanArchMvc.Domain.Accounts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -21,6 +22,26 @@ namespace CleanArchMvc.API.Controllers
             _configuration = configuration;
         }
 
+
+        [HttpPost("CreateUser")]
+        [ApiExplorerSettings(IgnoreApi = true)]
+        public async Task<ActionResult> CreateUser([FromBody] LoginModel userInfo)
+        {
+            var result = await _authenticate.RegisterUser(userInfo.Email, userInfo.Password);
+
+            if (result)
+            {
+                //return GenerateToken(userInfo);
+                return Ok($"User {userInfo.Email} was created successfully");
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Invalid Login attempt.");
+                return BadRequest(ModelState);
+            }
+        }
+
+        [AllowAnonymous]
         [HttpPost("LoginUser")]
         public async Task<ActionResult<UserToken>> Login([FromBody] LoginModel userInfo)
         {
