@@ -40,7 +40,7 @@ namespace CleanArchMvc.WebUI.Controllers
             }
 
             ModelState.AddModelError(string.Empty, "Invalid login attempt. (password must be strong).");
-            return View(result);
+            return View(model);
         }
 
         [HttpGet]
