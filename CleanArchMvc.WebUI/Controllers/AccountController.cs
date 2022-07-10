@@ -28,6 +28,8 @@ namespace CleanArchMvc.WebUI.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
+            ModelState.Remove(nameof(model.ReturnUrl));
+
             var result = await _authenticate.AuthenticateAsync(model.Email, model.Password);
 
             if (result)
@@ -39,7 +41,7 @@ namespace CleanArchMvc.WebUI.Controllers
                 return Redirect(model.ReturnUrl);
             }
 
-            ModelState.AddModelError(string.Empty, "Invalid login attempt. (password must be strong).");
+            ModelState.AddModelError(string.Empty, "Invalid login attempt.");
             return View(model);
         }
 
